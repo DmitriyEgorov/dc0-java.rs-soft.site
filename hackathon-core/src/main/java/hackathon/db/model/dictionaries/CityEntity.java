@@ -15,10 +15,10 @@ public class CityEntity {
     @Column(name = "ID")
     private Long id;
 
-    @Column(name = "region_id")
+    @Column(name = "region")
     private Long regionId;
 
-    @Column(name = "city_name")
+    @Column(name = "name")
     private String cityName;
 
     public Long getId() {

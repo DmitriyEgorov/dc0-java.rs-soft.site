@@ -17,11 +17,8 @@ public class RegionEntity {
     @Column(name = "ID")
     private Long id;
 
-    @Column(name = "region_name")
+    @Column(name = "name")
     private String regionName;
-
-
-
 
     public Long getId() {
         return id;
