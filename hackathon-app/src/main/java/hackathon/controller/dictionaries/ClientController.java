@@ -1,9 +1,12 @@
 package hackathon.controller.dictionaries;
 
+import hackathon.exception.ClientEntityExistException;
 import hackathon.exception.ClientEntityNotFoundException;
 import hackathon.model.dictionaries.Client;
+import hackathon.model.dictionaries.ClientDataCreation;
 import hackathon.processor.dictionaries.ClientProcessor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,6 +36,18 @@ public class ClientController {
             return ResponseEntity.ok(clientProcessor.findByLoginAndPassword(login, password));
         } catch (ClientEntityNotFoundException e) {
             return ResponseEntity.notFound().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @PutMapping("/create")
+    public ResponseEntity<Client> createUser(
+            @RequestBody ClientDataCreation clientDataCreation) {
+        try {
+            return ResponseEntity.ok(clientProcessor.createClient(clientDataCreation));
+        } catch (ClientEntityExistException e) {
+            return ResponseEntity.badRequest().build();
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }

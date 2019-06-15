@@ -11,6 +11,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface ClientEntityRepository extends JpaRepository<ClientEntity, Long> {
 
-    ClientEntity findByLoginAndPassword(String login, String Oms);
+    ClientEntity findByLoginAndPassword(String login, String password);
+
+    ClientEntity findByOms (String oms);
 
 }

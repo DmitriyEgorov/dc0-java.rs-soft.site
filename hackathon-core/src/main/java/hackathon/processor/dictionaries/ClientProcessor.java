@@ -1,7 +1,9 @@
 package hackathon.processor.dictionaries;
 
+import hackathon.exception.ClientEntityExistException;
 import hackathon.exception.ClientEntityNotFoundException;
 import hackathon.model.dictionaries.Client;
+import hackathon.model.dictionaries.ClientDataCreation;
 import hackathon.service.dictionaries.ClientEntityService;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +24,11 @@ public class ClientProcessor {
         this.clientEntityService = clientEntityService;
     }
 
-    public Client findByLoginAndPassword(String password, String OMS) throws ClientEntityNotFoundException {
-        return adaptClient(clientEntityService.findByLoginAndPassword(password, OMS));
+    public Client findByLoginAndPassword(String login, String password) throws ClientEntityNotFoundException {
+        return adaptClient(clientEntityService.findByLoginAndPassword(login, password));
+    }
+
+    public Client createClient(ClientDataCreation clientDataCreation) throws ClientEntityExistException {
+        return adaptClient(clientEntityService.createClient(clientDataCreation));
     }
 }

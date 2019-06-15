@@ -24,7 +24,7 @@ public class RegionAdapter {
     private static Region adaptRegion (RegionEntity regionEntity) {
         Region region = new Region();
         region.setId(regionEntity.getId());
-        region.setRegionName(region.getRegionName());
+        region.setRegionName(regionEntity.getRegionName());
         return region;
     }
 }

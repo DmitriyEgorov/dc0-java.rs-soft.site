@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import hackathon.db.model.dictionaries.ClientEntity;
 import hackathon.db.repository.dictionaries.ClientEntityRepository;
 import hackathon.model.dictionaries.Client;
+import hackathon.model.dictionaries.ClientDataCreation;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +49,7 @@ public class ClientControllerTest {
 
     @Test
     public void testFindClient_success() throws Exception {
+        clientEntityRepository.deleteAll();
         String password = "password";
         String oms = "oms";
         String fullName = "fullName";
@@ -73,7 +75,95 @@ public class ClientControllerTest {
                 Client.class);
         assertEquals(fullName, client.getFullNaMe());
         assertEquals(oms, client.getOMS());
+    }
 
+    @Test
+    public void testCreateClient_success() throws Exception {
+        clientEntityRepository.deleteAll();
+        String password = "password";
+        String oms = "oms";
+        String fullName = "fullName";
+        String login = "login";
+        ClientDataCreation clientDataCreation = new ClientDataCreation();
+        clientDataCreation.setOms(oms);
+        clientDataCreation.setPassword(password);
+        clientDataCreation.setFullName(fullName);
+        clientDataCreation.setLogin(login);
+
+        ObjectMapper mapper = new ObjectMapper();
+
+        ResultActions resultActions = mvc.perform(MockMvcRequestBuilders.put(CLIENT_PATH.concat("/create"))
+                .content(mapper.writeValueAsString(clientDataCreation))
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .accept(MediaType.APPLICATION_JSON));
+
+        resultActions.andExpect(status().isOk());
+
+        Client client = mapper.readValue(
+                resultActions.andReturn().getResponse().getContentAsString(),
+                Client.class);
+        assertEquals(fullName, client.getFullNaMe());
+        assertEquals(oms, client.getOMS());
+    }
+
+    @Test
+    public void testCreateClient_fail_loginAndPasswordExist() throws Exception {
+        clientEntityRepository.deleteAll();
+        String password = "password";
+        String oms = "oms";
+        String fullName = "fullName";
+        String login = "login";
+        ClientDataCreation clientDataCreation = new ClientDataCreation();
+        clientDataCreation.setOms(oms.concat("salt"));
+        clientDataCreation.setPassword(password);
+        clientDataCreation.setFullName(fullName);
+        clientDataCreation.setLogin(login);
+
+        ClientEntity clientEntity = new ClientEntity();
+        clientEntity.setOms(oms);
+        clientEntity.setPassword(password);
+        clientEntity.setFullNaMe(fullName);
+        clientEntity.setLogin(login);
+        clientEntityRepository.save(clientEntity);
+
+        ObjectMapper mapper = new ObjectMapper();
+
+        ResultActions resultActions = mvc.perform(MockMvcRequestBuilders.put(CLIENT_PATH.concat("/create"))
+                .content(mapper.writeValueAsString(clientDataCreation))
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .accept(MediaType.APPLICATION_JSON));
+
+        resultActions.andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void testCreateClient_fail_OMSExists() throws Exception {
+        clientEntityRepository.deleteAll();
+        String password = "password";
+        String oms = "oms";
+        String fullName = "fullName";
+        String login = "login";
+        ClientDataCreation clientDataCreation = new ClientDataCreation();
+        clientDataCreation.setOms(oms);
+        clientDataCreation.setPassword(password.concat("salt"));
+        clientDataCreation.setFullName(fullName);
+        clientDataCreation.setLogin(login.concat("salt"));
+
+        ClientEntity clientEntity = new ClientEntity();
+        clientEntity.setOms(oms);
+        clientEntity.setPassword(password);
+        clientEntity.setFullNaMe(fullName);
+        clientEntity.setLogin(login);
+        clientEntityRepository.save(clientEntity);
+
+        ObjectMapper mapper = new ObjectMapper();
+
+        ResultActions resultActions = mvc.perform(MockMvcRequestBuilders.put(CLIENT_PATH.concat("/create"))
+                .content(mapper.writeValueAsString(clientDataCreation))
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .accept(MediaType.APPLICATION_JSON));
+
+        resultActions.andExpect(status().isBadRequest());
     }
 
 }
