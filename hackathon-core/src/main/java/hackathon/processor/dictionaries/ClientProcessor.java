@@ -5,7 +5,7 @@ import hackathon.model.dictionaries.Client;
 import hackathon.service.dictionaries.ClientEntityService;
 import org.springframework.stereotype.Service;
 
-import static hackathon.adapter.ClientAdapter.adaptClient;
+import static hackathon.adapter.dictionaries.ClientAdapter.adaptClient;
 
 /**
  * service for client's data
@@ -22,7 +22,7 @@ public class ClientProcessor {
         this.clientEntityService = clientEntityService;
     }
 
-    public Client findClientByPasswordAndOMS(String password, String OMS) throws ClientEntityNotFoundException {
-        return adaptClient(clientEntityService.findClientByPasswordAndOMS(password, OMS));
+    public Client findByLoginAndPassword(String password, String OMS) throws ClientEntityNotFoundException {
+        return adaptClient(clientEntityService.findByLoginAndPassword(password, OMS));
     }
 }

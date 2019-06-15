@@ -21,6 +21,9 @@ public class ClientEntity {
     @Enumerated(value = EnumType.STRING)
     private ClientRole clientRole;
 
+    @Column(name = "login")
+    private String login;
+
     @Column(name = "password")
     private String password;
 
@@ -69,5 +72,13 @@ public class ClientEntity {
 
     public void setFullNaMe(String fullNaMe) {
         this.fullNaMe = fullNaMe;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
     }
 }

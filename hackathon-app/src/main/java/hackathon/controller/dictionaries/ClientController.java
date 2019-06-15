@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import static app.config.HackathonApplication.DICTIONARIES_PATH;
+
 /**
  * controller for client
  *
@@ -24,11 +26,11 @@ public class ClientController {
     }
 
     @GetMapping("/find")
-    public ResponseEntity<Client> findClient(
-            @RequestParam(name = "password") String password,
-            @RequestParam(name = "OMS")String OMS) {
+    public ResponseEntity<Client> findByLoginAndPassword(
+            @RequestParam(name = "login") String login,
+            @RequestParam(name = "password") String password) {
         try {
-            return ResponseEntity.ok(clientProcessor.findClientByPasswordAndOMS(password, OMS));
+            return ResponseEntity.ok(clientProcessor.findByLoginAndPassword(login, password));
         } catch (ClientEntityNotFoundException e) {
             return ResponseEntity.notFound().build();
         } catch (Exception e) {

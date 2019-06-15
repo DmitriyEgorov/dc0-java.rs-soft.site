@@ -40,8 +40,8 @@ public class ClientControllerTest {
     public void testFindClient_notFound() throws Exception {
         clientEntityRepository.deleteAll();
         mvc.perform(MockMvcRequestBuilders.get(CLIENT_PATH.concat("/find"))
+                .param("login", "test")
                 .param("password", "test")
-                .param("OMS", "test")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
     }
@@ -51,15 +51,17 @@ public class ClientControllerTest {
         String password = "password";
         String oms = "oms";
         String fullName = "fullName";
+        String login = "login";
         ClientEntity clientEntity = new ClientEntity();
         clientEntity.setOms(oms);
         clientEntity.setPassword(password);
         clientEntity.setFullNaMe(fullName);
+        clientEntity.setLogin(login);
         clientEntityRepository.save(clientEntity);
 
         ResultActions resultActions = mvc.perform(MockMvcRequestBuilders.get(CLIENT_PATH.concat("/find"))
                 .param("password", clientEntity.getPassword())
-                .param("OMS", clientEntity.getOms())
+                .param("login", clientEntity.getLogin())
                 .accept(MediaType.APPLICATION_JSON));
 
         resultActions.andExpect(status().isOk());

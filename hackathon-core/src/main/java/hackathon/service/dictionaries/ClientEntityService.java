@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class ClientEntityService {
-    private static final String NOT_FOUND_MESSAGE = "client with id password %s and OMS %s not found";
+    private static final String NOT_FOUND_MESSAGE = "client with id login %s and password %s not found";
 
     private final ClientEntityRepository clientEntityRepository;
 
@@ -21,10 +21,18 @@ public class ClientEntityService {
         this.clientEntityRepository = clientEntityRepository;
     }
 
-    public ClientEntity findClientByPasswordAndOMS(String password, String OMS) throws ClientEntityNotFoundException {
-        ClientEntity clientEntity =  clientEntityRepository.findByPasswordAndOms(password, OMS);
-        if(clientEntity == null) {
-            throw new ClientEntityNotFoundException(String.format(NOT_FOUND_MESSAGE, password, OMS));
+    /**
+     * find client by password and OMS
+     *
+     * @param login    - login
+     * @param password - password
+     * @return client
+     * @throws ClientEntityNotFoundException - when client is not found
+     */
+    public ClientEntity findByLoginAndPassword(String login, String password) throws ClientEntityNotFoundException {
+        ClientEntity clientEntity = clientEntityRepository.findByLoginAndPassword(login, password);
+        if (clientEntity == null) {
+            throw new ClientEntityNotFoundException(String.format(NOT_FOUND_MESSAGE, login, password));
         }
         return clientEntity;
     }

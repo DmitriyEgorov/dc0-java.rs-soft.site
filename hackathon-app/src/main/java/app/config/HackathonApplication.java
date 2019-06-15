@@ -26,6 +26,7 @@ import javax.sql.DataSource;
 @EntityScan(basePackages = {"hackathon.db.model"})
 @PropertySource("classpath:hackathon.properties")
 public class HackathonApplication {
+    public static final String DICTIONARIES_PATH = "/dictionaries";
 
     private final Environment environment;
 
