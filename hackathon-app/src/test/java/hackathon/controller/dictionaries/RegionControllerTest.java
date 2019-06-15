@@ -3,8 +3,11 @@ package hackathon.controller.dictionaries;
 import app.config.TestHackathonApplication;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import hackathon.db.model.dictionaries.CityEntity;
 import hackathon.db.model.dictionaries.RegionEntity;
+import hackathon.db.repository.dictionaries.CityEntityRepository;
 import hackathon.db.repository.dictionaries.RegionEntityRepository;
+import hackathon.model.dictionaries.City;
 import hackathon.model.dictionaries.Region;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,6 +22,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.List;
 
+import static hackathon.adapter.dictionaries.CityAdapter.adaptCities;
 import static hackathon.adapter.dictionaries.RegionAdapter.adaptRegions;
 import static org.junit.Assert.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -38,10 +42,13 @@ public class RegionControllerTest {
     private RegionEntityRepository regionEntityRepository;
 
     @Autowired
+    private CityEntityRepository cityEntityRepository;
+
+    @Autowired
     private MockMvc mvc;
 
     @Test
-    public void test_emptyList() throws Exception {
+    public void test_emptyRegionList() throws Exception {
         regionEntityRepository.deleteAll();
 
         ResultActions resultActions = mvc.perform(MockMvcRequestBuilders.get(REGION_PATH)
@@ -59,7 +66,7 @@ public class RegionControllerTest {
     }
 
     @Test
-    public void test_notEmptyList() throws Exception {
+    public void test_notEmptyRegionList() throws Exception {
         RegionEntity regionEntity_1 = new RegionEntity();
         String regionName_1 = "regionName_1";
         regionEntity_1.setRegionName(regionName_1);
@@ -85,6 +92,58 @@ public class RegionControllerTest {
 
         assertEquals(regionsExpected.size(), regionsReal.size());
         assertTrue(regionsReal.containsAll(regionsExpected));
+    }
+
+    @Test
+    public void test_notEmptyCityList() throws Exception {
+        Long regionId = 1L;
+        CityEntity cityEntity_1 = new CityEntity();
+        cityEntity_1.setRegionId(regionId);
+        String cityName_1 = "cityName_1";
+        cityEntity_1.setCityName(cityName_1);
+        cityEntityRepository.save(cityEntity_1);
+
+        CityEntity cityEntity_2 = new CityEntity();
+        String cityName_2 = "cityName_2";
+        cityEntity_2.setRegionId(regionId);
+        cityEntity_2.setCityName(cityName_2);
+        cityEntityRepository.save(cityEntity_2);
+
+        List<City> citiesExpected = adaptCities(cityEntityRepository.findAll());
+
+        ResultActions resultActions = mvc.perform(MockMvcRequestBuilders.get(
+                REGION_PATH.concat("/{regionId}/cities"), regionId)
+                .accept(MediaType.APPLICATION_JSON));
+
+        resultActions.andExpect(status().isOk());
+
+        ObjectMapper mapper = new ObjectMapper();
+
+        List<City> citiesReal = mapper.readValue(
+                resultActions.andReturn().getResponse().getContentAsString(),
+                new TypeReference<List<City>>() {});
+
+        assertEquals(citiesExpected.size(), citiesReal.size());
+        assertTrue(citiesReal.containsAll(citiesExpected));
+    }
+
+    @Test
+    public void test_emptyCitiesList() throws Exception {
+        regionEntityRepository.deleteAll();
+
+        ResultActions resultActions = mvc.perform(MockMvcRequestBuilders.get(
+                REGION_PATH.concat("/{regionId}/cities"), Long.MAX_VALUE)
+                .accept(MediaType.APPLICATION_JSON));
+
+        resultActions.andExpect(status().isOk());
+
+        ObjectMapper mapper = new ObjectMapper();
+
+        List<City> regions = mapper.readValue(
+                resultActions.andReturn().getResponse().getContentAsString(),
+                new TypeReference<List<City>>() {});
+
+        assertTrue(regions.isEmpty());
     }
 
 }
