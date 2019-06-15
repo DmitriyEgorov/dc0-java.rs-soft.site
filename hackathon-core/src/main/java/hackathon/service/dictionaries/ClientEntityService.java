@@ -52,6 +52,7 @@ public class ClientEntityService {
         newClient.setOms(clientDataCreation.getOms());
         newClient.setPolyclinicId(clientDataCreation.getPolyclinicId());
         newClient.setCreated_at(LocalDateTime.now());
+        newClient.setEmail(clientDataCreation.getEmail());
         return clientEntityRepository.save(newClient);
     }
 

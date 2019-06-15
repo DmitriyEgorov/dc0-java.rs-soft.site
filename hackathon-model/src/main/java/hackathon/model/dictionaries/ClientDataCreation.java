@@ -16,6 +16,8 @@ public class ClientDataCreation {
 
     private Long polyclinicId;
 
+    private String email;
+
     public String getLogin() {
         return login;
     }
@@ -54,5 +56,13 @@ public class ClientDataCreation {
 
     public void setPolyclinicId(Long polyclinicId) {
         this.polyclinicId = polyclinicId;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

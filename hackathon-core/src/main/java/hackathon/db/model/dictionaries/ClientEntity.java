@@ -58,7 +58,7 @@ public class ClientEntity {
 
     /* verification_token of session */
     @Column(name = "verification_token")
-    private String verification_token;
+    private Long verification_token;
 
     /* auth_key */
     @Column(name = "auth_key")
@@ -152,11 +152,11 @@ public class ClientEntity {
         this.deleted_at = deleted_at;
     }
 
-    public String getVerification_token() {
+    public Long getVerification_token() {
         return verification_token;
     }
 
-    public void setVerification_token(String verification_token) {
+    public void setVerification_token(Long verification_token) {
         this.verification_token = verification_token;
     }
 
