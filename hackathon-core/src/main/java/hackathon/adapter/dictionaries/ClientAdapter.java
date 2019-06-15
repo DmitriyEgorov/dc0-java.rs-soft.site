@@ -19,6 +19,7 @@ public class ClientAdapter {
      */
     public static Client adaptClient(ClientEntity clientEntity) {
         Client client = new Client();
+        client.setId(clientEntity.getId());
         client.setFullNaMe(clientEntity.getFullNaMe());
         client.setOMS(clientEntity.getOms());
         return client;

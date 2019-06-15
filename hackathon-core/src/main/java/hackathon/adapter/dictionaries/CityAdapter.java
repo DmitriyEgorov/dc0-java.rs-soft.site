@@ -22,7 +22,8 @@ public class CityAdapter {
 
     private static City adaptCity(CityEntity cityEntity) {
         City city = new City();
-        city.setCityName(cityEntity.getCityName());
+        city.setId(cityEntity.getId());
+        city.setName(cityEntity.getCityName());
         return city;
     }
 }

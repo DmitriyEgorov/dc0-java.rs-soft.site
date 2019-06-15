@@ -8,9 +8,19 @@ package hackathon.model.dictionaries;
  */
 public class Client {
 
+    private Long id;
+
     private String OMS;
 
     private String fullNaMe;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getOMS() {
         return OMS;

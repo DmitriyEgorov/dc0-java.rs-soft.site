@@ -11,14 +11,24 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
  */
 public class City {
 
-    private String cityName;
+    private Long id;
 
-    public String getCityName() {
-        return cityName;
+    private String name;
+
+    public Long getId() {
+        return id;
     }
 
-    public void setCityName(String cityName) {
-        this.cityName = cityName;
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override
@@ -34,14 +44,16 @@ public class City {
         City city = (City) o;
 
         return new EqualsBuilder()
-                .append(cityName, city.cityName)
+                .append(id, city.id)
+                .append(name, city.name)
                 .isEquals();
     }
 
     @Override
     public int hashCode() {
         return new HashCodeBuilder(17, 37)
-                .append(cityName)
+                .append(id)
+                .append(name)
                 .toHashCode();
     }
 }
