@@ -46,6 +46,9 @@
           <element id="library" level="project" name="Maven: com.sun.jersey:jersey-core:1.19.4" />
           <element id="library" level="project" name="Maven: javax.ws.rs:jsr311-api:1.1.1" />
           <element id="library" level="project" name="Maven: postgresql:postgresql:9.1-901-1.jdbc4" />
+          <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.9.8" />
+          <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.9.0" />
+          <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-core:2.9.8" />
           <element id="archive" name="hackathon-core-1.0-SNAPSHOT.jar">
             <element id="module-output" name="hackathon-core" />
           </element>
@@ -54,9 +57,6 @@
           <element id="archive" name="hackarthon-model-1.0-SNAPSHOT.jar">
             <element id="module-output" name="hackathon-model" />
           </element>
-          <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.9.8" />
-          <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.9.0" />
-          <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-core:2.9.8" />
           <element id="library" level="project" name="Maven: org.apache.commons:commons-lang3:3.8.1" />
           <element id="library" level="project" name="Maven: org.slf4j:slf4j-api:1.7.26" />
           <element id="library" level="project" name="Maven: net.bytebuddy:byte-buddy:1.9.12" />
