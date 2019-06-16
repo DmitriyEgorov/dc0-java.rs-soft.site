@@ -4,6 +4,8 @@ import hackathon.model.dictionaries.City;
 import hackathon.model.dictionaries.Region;
 import hackathon.processor.dictionaries.CityProcessor;
 import hackathon.processor.dictionaries.RegionProcessor;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,6 +26,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/dictionaries/regions")
 public class RegionController {
+    private static final Log LOGGER = LogFactory.getLog(PolyclinicController.class);
 
     private final RegionProcessor regionProcessor;
     private final CityProcessor cityProcessor;
@@ -43,6 +46,7 @@ public class RegionController {
         try {
             return ResponseEntity.ok(regionProcessor.getRegions());
         } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
@@ -58,6 +62,7 @@ public class RegionController {
         try {
             return ResponseEntity.ok(cityProcessor.findCitiesByRegionId(regionId));
         } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }

@@ -2,6 +2,8 @@ package hackathon.controller.dictionaries;
 
 import hackathon.model.dictionaries.Speciality;
 import hackathon.processor.dictionaries.SpecialityProcessor;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +22,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/dictionaries/polyclinic")
 public class PolyclinicController {
+    private static final Log LOGGER = LogFactory.getLog(PolyclinicController.class);
 
     private final SpecialityProcessor specialityProcessor;
 
@@ -33,6 +36,7 @@ public class PolyclinicController {
         try {
             return ResponseEntity.ok(specialityProcessor.findByPolyclinicId(polyclinicId));
         } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }

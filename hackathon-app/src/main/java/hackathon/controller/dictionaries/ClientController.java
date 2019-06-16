@@ -5,6 +5,8 @@ import hackathon.exception.ClientEntityNotFoundException;
 import hackathon.model.dictionaries.Client;
 import hackathon.model.dictionaries.ClientDataCreation;
 import hackathon.processor.dictionaries.ClientProcessor;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +23,7 @@ import static app.config.HackathonApplication.DICTIONARIES_PATH;
 @RestController
 @RequestMapping("/dictionaries/clients")
 public class ClientController {
+    private static final Log LOGGER = LogFactory.getLog(ClientController.class);
 
     private final ClientProcessor clientProcessor;
 
@@ -47,8 +50,10 @@ public class ClientController {
         try {
             return ResponseEntity.ok(clientProcessor.createClient(clientDataCreation));
         } catch (ClientEntityExistException e) {
+            LOGGER.error(e.getMessage(), e);
             return ResponseEntity.badRequest().build();
         } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
